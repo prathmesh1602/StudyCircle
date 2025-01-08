@@ -54,6 +54,15 @@ def logoutUser(request):
     logout(request)
     return redirect('home')
 
+def userprofile(request,pk):
+    user = User.objects.get(id=pk)
+    rooms = user.room_set.all()
+    room_messages =user.message_set.all()
+    topics = Topic.objects.all()
+    context={'user':user,'rooms':rooms,'room_messages':room_messages,'topics':topics}
+    return render(request,'base/profile.html',context)
+
+
 def home(request):
     q = request.GET.get('q') if request.GET.get('q') != None else ''
     rooms = Room.objects.filter(Q(topic__name__icontains = q) 
@@ -63,7 +72,7 @@ def home(request):
     
     
     room_cont = rooms.count()
-    room_messages = Message.objects.all()
+    room_messages = Message.objects.filter(Q(room__topic__name__icontains=q))
     topic = Topic.objects.all()# to get all entity from topic
 
     context = {'rooms':rooms,'topics':topic,'room_count':room_cont,'room_messages':room_messages}
@@ -94,7 +103,9 @@ def creatroom(request):
     if request.method == "POST":
         form = RoomForm(request.POST)
         if form.is_valid():
-            form.save()
+            room = form.save(commit=False)
+            room.host = request.user
+            room.save()
             return redirect('home')
     context={'form':form}
     return render(request,'base/room_form.html',context)
