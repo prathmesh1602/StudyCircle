@@ -1,5 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap");
 
+
+
 :root {
   --color-main: #71c6dd;
   --color-main-light: #e1f6fb;
@@ -48,9 +50,28 @@ body {
   font-weight: 400;
   font-size: 1.5rem;
   color: var(--color-light-gray);
-  background-image:url("/static/images/pink-7761356_640.webp") ;
+
+  
+  
+  
+  /* background-image:url("/static/images/pexels-marina-hinic-199169-726233.jpg") ; */
+  /* background-image: linear-gradient(to bottom right, blue,indigo,- black); */
+
+  background-image: linear-gradient(45deg,rgb(22, 22, 32), #054f7d,#00a7cf,#054f7d,rgb(22, 22, 32));
+  background-size:300% 300% ;
+  /* animation-duration: 12s; */
+ /* / animation-iteration-count: ease-in-out infinite; */
+  animation: gradients 12s ease-in-out infinite;
   min-height: 100vh;
 }
+
+@keyframes gradients {
+  0%   {background-position: 0 50%;}
+  50% {background-position: 100% 50%;}
+  100%  {background-position: 0 50%;}
+}
+
+
 
 img {
   width: 100%;
@@ -267,7 +288,7 @@ a {
 
 .header {
   padding: 1.5rem;
-  background-color: var(--color-dark);
+  background-image:linear-gradient(to right, #141e30, #243b55);
 }
 
 .header > .container {
@@ -278,28 +299,30 @@ a {
 .header__logo,
 .header__user {
   display: flex;
-  gap: 2rem;
+  gap: 1rem;
   align-items: center;
 }
 
 .header__logo > img {
-  height: 3.2rem;
-  width: 3.2rem;
+  height: 4rem;
+  width: 4rem;
+ 
 }
 
 .header__logo > h1 {
   font-weight: 700;
   font-size: 2rem;
-  color: var(--color-light);
+  color: white;
 }
 
 .header__search > label {
-  background-color: var(--color-dark-medium);
+  background-color: var(--color-dark);
   padding: 1.3rem 1rem;
   display: flex;
   align-items: center;
   gap: 1rem;
   border-radius: 4px;
+  width: 600px;
 }
 
 .header__search svg {
@@ -563,7 +586,7 @@ a {
 .topics__header h2 {
   text-transform: uppercase;
   font-weight: 500;
-  color: var(--color-dark-light);
+  color: var(--color-light);
 }
 
 .topics__list {
@@ -649,7 +672,7 @@ a {
 
 .roomList__header p {
   font-weight: 500;
-  color: var(--color-dark-light);
+  color: var(--color-light);
 }
 
 /*========== Room List Room ==========*/
