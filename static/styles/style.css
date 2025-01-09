@@ -288,7 +288,7 @@ a {
 
 .header {
   padding: 1.5rem;
-  background-image:linear-gradient(to right, #141e30, #243b55);
+  background-image:linear-gradient(to right, #243b55, #141e30);
 }
 
 .header > .container {
