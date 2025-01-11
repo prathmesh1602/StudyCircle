@@ -116,8 +116,8 @@ a {
 }
 
 .btn--main {
-  background-color: var(--color-main);
-  color: var(--color-dark);
+  background-color: #0f1555c7;
+  color: white;
 }
 
 .btn:hover {
@@ -281,6 +281,11 @@ a {
     display: none;
   }
 }
+
+/*==============================
+=>  log In Page
+================================*/
+
 
 /*==============================
 =>  Header Section
@@ -598,16 +603,6 @@ a {
 
 .topics__list li a {
 
-  
- 
-    font-family: "Jersey 15", serif;
-    font-weight: 400;
-    font-style: normal;
-  
-  
-  
-  
-
   display: flex;
   justify-content: space-between;
   margin-bottom: 3rem;
@@ -623,7 +618,7 @@ a {
 
 .topics__list li a span {
   padding: 0.5rem 1rem;
-  background-color: var(--color-dark);
+  background-color:#234b6f;
   border-radius: 3px;
   font-size: 1.3rem;
   font-weight: 700;
@@ -679,7 +674,7 @@ a {
 
 .roomListRoom {
   margin-bottom: 2.4rem;
-  background-color: var(--color-dark);
+  background-color:#234b6f;
   border-radius: 1rem;
   padding: 2rem;
 }
@@ -733,7 +728,7 @@ a {
 }
 
 .roomListRoom__meta {
-  border-top: 1px solid var(--color-dark-medium);
+  border-top: 2px solid #808bec;
   padding-top: 1rem;
   display: flex;
   align-items: center;
@@ -757,7 +752,7 @@ a {
 
 .roomListRoom__topic {
   padding: 5px 1.5rem;
-  background-color: var(--color-dark-medium);
+  background-color:#083b5a;
   border-radius: 5rem;
   font-weight: 500;
   font-size: 1.3rem;
@@ -768,13 +763,13 @@ a {
 ================================*/
 
 .activities {
-  background: var(--color-dark);
+  background: #234b6f;
   border-radius: 5px;
   overflow: hidden;
 }
 
 .activities__header h2 {
-  background-color: var(--color-dark-light);
+  background-color: #0f1555c7;
   text-transform: uppercase;
   font-weight: 500;
   padding: 1rem 1.5rem;
@@ -786,7 +781,7 @@ a {
 .activities__box {
   margin: 1.5rem;
   padding: 1.5rem;
-  border: 2px solid var(--color-dark-medium);
+  border: 2px solid #808bec;
   border-radius: 5px;
 }
 
@@ -814,7 +809,7 @@ a {
 }
 
 .activities__boxRoomContent {
-  background: var(--color-bg);
+  background: #083b5a;
   padding: 1rem;
   border-radius: 5px;
   margin-top: 1rem;
