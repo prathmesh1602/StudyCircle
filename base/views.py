@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect
 from .models import Room,Topic,Message
 from django.db.models import Q
-from .forms import RoomForm
+from .forms import RoomForm,UserForm
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate,login,logout
 from django.contrib import messages
@@ -11,21 +11,24 @@ from django.contrib.auth.forms import UserCreationForm
 def loginPage(request):
     page='page'
     if request.method == 'POST':
-        username = request.POST.get('username').lower()
+        username = request.POST.get('username')
         password = request.POST.get('password')
+        
 
         try:
             user = User.objects.get(username=username) 
+
         except:
             messages.error(request,'User does not exist')
 
         user = authenticate(request,username=username,password=password)
+        
 
         if user is not None:
             login(request,user)
             return redirect('home')
         else:
-            messages.error(request,'Username Or Password Does NOt exist')
+            messages.error(request,'Username Or Password Does Not exist')
 
 
 
@@ -38,6 +41,7 @@ def registeruser(request):
     form = UserCreationForm()
     if request.method == 'POST':
         form =UserCreationForm(request.POST)
+        print(form)
         if form.is_valid():
             user = form.save(commit=False)
             user.username = user.username.lower()
@@ -46,8 +50,8 @@ def registeruser(request):
             return redirect('home')
         else:
             messages.error(request,'An error occured during registraion')
-
-    return render(request,'base/login_register.html', {'form': form})
+ 
+    return render(request,'base/register.html', {'form': form})
 
 
 def logoutUser(request):
@@ -62,6 +66,22 @@ def userprofile(request,pk):
     context={'user':user,'rooms':rooms,'room_messages':room_messages,'topics':topics}
     return render(request,'base/profile.html',context)
 
+@login_required(login_url='login')
+def updateuser(request):
+    user = request.user
+    form = UserForm(instance=user)
+
+    if request.method == 'POST':
+        form = UserForm(request.POST, request.FILES, instance=user)
+        if form.is_valid():
+            form.save()
+            return redirect('user-profile', pk=user.id)
+
+    return render(request,"base/update-user.html",{'form': form})
+
+
+
+
 
 def home(request):
     q = request.GET.get('q') if request.GET.get('q') != None else ''
@@ -73,7 +93,7 @@ def home(request):
     
     room_cont = rooms.count()
     room_messages = Message.objects.filter(Q(room__topic__name__icontains=q))
-    topic = Topic.objects.all()# to get all entity from topic
+    topic = Topic.objects.all()[0:5]# to get all entity from topic
 
     context = {'rooms':rooms,'topics':topic,'room_count':room_cont,'room_messages':room_messages}
     return render(request,'base/home.html',context)
@@ -128,13 +148,17 @@ def updateroom(request,pk):
     if request.user != room.host:
         return HttpResponse('You are not allowed here')
     if request.method == 'POST':
-        form = RoomForm(request.POST,instance = room)
-        if form.is_valid():
-            form.save()
-            return redirect('home')
+        topic_name = request.POST.get("topic")
+        topic,created = Topic.objects.get_or_create(name=topic_name)
+        room.name = request.POST.get('name')
+        room.topic = topic
+        room.description = request.POST.get('description')
+        room.save()
+        return redirect('home')
+        
     
     
-    context={'form':form,'topics':topics}
+    context={'form':form,'topics':topics,'room':room}
     return render(request,'base/room_form.html',context)
 
 @login_required(login_url='login')
@@ -155,3 +179,8 @@ def deletemessage(request,pk):
         message.delete()
         return redirect('home')
     return render(request,'base/delete.html',{'obj':message})
+
+def topicsPage(request):
+    q = request.GET.get('q') if request.GET.get('q') != None else ''
+    topics = Topic.objects.filter(name__icontains=q)
+    return render(request,"base/topics.html",{'topics': topics})
