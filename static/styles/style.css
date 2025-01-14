@@ -345,7 +345,7 @@ a {
   color: var(--color-light);
 }
 
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 768px) {
   .header__search input {
     width: 20rem;
   }
