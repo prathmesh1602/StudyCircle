@@ -16,9 +16,12 @@
 
         <form class="form" action="{% url "login" %}" method="POST">
           {% csrf_token %}
+          {% for message in messages %}
+        <p style="color: white;">{{ message }}</p>
+    {% endfor %}
           <div class="form__group form__group">
             <label for="room_name">Username</label>
-            <input  name="username" type="text" placeholder="e.g. dennis_ivy@email.com" />
+            <input  name="username" type="email" placeholder="e.g. dennis_ivy@email.com" />
           </div>
           <div class=" form__group">
             <label for="password">Password</label>

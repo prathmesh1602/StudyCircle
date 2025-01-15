@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect
 from .models import Room,Topic,Message
 from django.db.models import Q
-from .forms import RoomForm,UserForm
+from .forms import RoomForm,CustomUserCreationForm
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate,login,logout
 from django.contrib import messages
@@ -38,10 +38,10 @@ def loginPage(request):
 
 
 def registeruser(request):
-    form = UserCreationForm()
+    form = CustomUserCreationForm()
     if request.method == 'POST':
-        form =UserCreationForm(request.POST)
-        print(form)
+        form =CustomUserCreationForm(request.POST)
+        
         if form.is_valid():
             user = form.save(commit=False)
             user.username = user.username.lower()
@@ -49,7 +49,11 @@ def registeruser(request):
             login(request,user)
             return redirect('home')
         else:
-            messages.error(request,'An error occured during registraion')
+            for field, errors in form.errors.items():
+                for error in errors:
+                    print(error)
+                    messages.error(request, f"{field.capitalize()}: {error}")
+           
  
     return render(request,'base/register.html', {'form': form})
 
@@ -69,10 +73,10 @@ def userprofile(request,pk):
 @login_required(login_url='login')
 def updateuser(request):
     user = request.user
-    form = UserForm(instance=user)
+    form = CustomUserCreationForm(instance=user)
 
     if request.method == 'POST':
-        form = UserForm(request.POST, request.FILES, instance=user)
+        form = CustomUserCreationForm(request.POST, request.FILES, instance=user)
         if form.is_valid():
             form.save()
             return redirect('user-profile', pk=user.id)
