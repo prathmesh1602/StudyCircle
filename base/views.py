@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-from .models import Room,Topic,Message
+from .models import Room,Topic,Message,User
 from django.db.models import Q
 from .forms import RoomForm,CustomUserCreationForm
 from django.contrib.auth.models import User
@@ -7,7 +7,8 @@ from django.contrib.auth import authenticate,login,logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
-from django.contrib.auth.forms import UserCreationForm
+from .models import UserDetails
+from .forms import UserDetailsForm
 def loginPage(request):
     page='page'
     if request.method == 'POST':
@@ -64,24 +65,39 @@ def logoutUser(request):
 
 def userprofile(request,pk):
     user = User.objects.get(id=pk)
+    user_details = UserDetails.objects.get(user=request.user)
     rooms = user.room_set.all()
     room_messages =user.message_set.all()
     topics = Topic.objects.all()
-    context={'user':user,'rooms':rooms,'room_messages':room_messages,'topics':topics}
+    context={'user':user,'rooms':rooms,'room_messages':room_messages,'topics':topics,'user_details': user_details}
     return render(request,'base/profile.html',context)
 
 @login_required(login_url='login')
 def updateuser(request):
     user = request.user
-    form = CustomUserCreationForm(instance=user)
+    user_details, created = UserDetails.objects.get_or_create(user=request.user)
+    user_form = CustomUserCreationForm(instance=user)
+    details_form = UserDetailsForm(instance=user_details)
+    context = {
+        'user_form': user_form,
+        'details_form': details_form
+    }
 
     if request.method == 'POST':
-        form = CustomUserCreationForm(request.POST, request.FILES, instance=user)
-        if form.is_valid():
-            form.save()
-            return redirect('user-profile', pk=user.id)
+        user_form = CustomUserCreationForm(request.POST, request.FILES, instance=user)
+        details_form = UserDetailsForm(request.POST, instance=user_details)
 
-    return render(request,"base/update-user.html",{'form': form})
+        if user_form.is_valid() and details_form.is_valid():
+            # Save both the user and user_details
+            user_form.save()
+            details_form.save()
+
+            # Redirect to the user profile after updating
+            return redirect('user-profile', pk=user.id)
+        
+    
+        print(context)
+    return render(request,"base/update-user.html",context)
 
 
 

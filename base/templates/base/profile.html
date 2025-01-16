@@ -12,33 +12,86 @@
       <div class="profile">
         <div class="profile__avatar">
           <div class="avatar avatar--large active">
-            <img src="{{user.avatar.url}}" />
+            <img src="{{ user.avatar.url }}" alt="User Avatar"/>
           </div>
         </div>
         <div class="profile__info">
-          <h3>{{user.username}}</h3>
-          <p>{{user.email}}</p>
+          <h3>{{ user.username }}</h3>
+          <p>{{ user.email }}</p>
           {% if request.user == user %}
           <a href="{% url 'update-user' %}" class="btn btn--main btn--pill">Edit Profile</a>
-          {% endif %} 
+          {% endif %}
         </div>
         <div class="profile__about">
           <h3>About</h3>
-          <p>
-            {{user.bio}}
-          </p>
+          <p>{{ user.bio }}</p>
         </div>
       </div>
+
+      <!-- User Details Section -->
+      <div class="user-details">
+        <h3>User Details</h3>
+        <div class="user-detail-item">
+          <strong>College Name:</strong>
+          <p>{{ user.userdetails.college_name }}</p>
+        </div>
+        <div class="user-detail-item">
+          <strong>Department:</strong>
+          <p>{{ user.userdetails.department_name }}</p>
+        </div>
+        <div class="user-detail-item">
+          <strong>Current Year:</strong>
+          <p>{{ user.userdetails.current_year }}</p>
+        </div>
+
+        <div class="user-detail-item">
+          <strong>LinkedIn:</strong>
+          {% if user.userdetails.linkedin_url %}
+          <a href="{{ user.userdetails.linkedin_url }}" target="_blank">{{ user.userdetails.linkedin_url }}</a>
+          {% else %}
+          <p>No LinkedIn URL provided</p>
+          {% endif %}
+        </div>
+
+        <div class="user-detail-item">
+          <strong>GitHub:</strong>
+          {% if user.userdetails.github_url %}
+          <a href="{{ user.userdetails.github_url }}" target="_blank">{{ user.userdetails.github_url }}</a>
+          {% else %}
+          <p>No GitHub URL provided</p>
+          {% endif %}
+        </div>
+
+        <div class="user-detail-item">
+          <strong>Twitter:</strong>
+          {% if user.userdetails.twitter_url %}
+          <a href="{{ user.userdetails.twitter_url }}" target="_blank">{{ user.userdetails.twitter_url }}</a>
+          {% else %}
+          <p>No Twitter URL provided</p>
+          {% endif %}
+        </div>
+
+        <div class="user-detail-item">
+          <strong>Other Links:</strong>
+          {% if user.userdetails.other_links %}
+          <ul>
+            {% for link in user.userdetails.other_links %}
+            <li><a href="{{ link }}" target="_blank">{{ link }}</a></li>
+            {% endfor %}
+          </ul>
+          {% else %}
+          <p>No other links provided</p>
+          {% endif %}
+        </div>
+      </div>
+      <!-- End of User Details Section -->
 
       <div class="roomList__header">
         <div>
-          <h2>Study Rooms Hosted by you</a>
-          </h2>
+          <h2>Study Rooms Hosted by you</h2>
         </div>
       </div>
       {% include 'base/feed_components.html' %}
-
-
     </div>
     <!-- Room List End -->
 

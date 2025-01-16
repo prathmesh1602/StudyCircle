@@ -20,14 +20,52 @@
       <div class="layout__body">
         <form class="form" action="" method="POST" enctype="multipart/form-data">
           {% csrf_token %}
-
-          {% for field in form %}
+          
+          <!-- User Form Fields Start -->
           <div class="form__group">
-            <label for="profile_pic">{{field.label}}</label>
-            {{field}}
+            <label for="username">{{ user_form.username.label }}</label>
+            {{ user_form.username }}
           </div>
-          {% endfor %}
+          <div class="form__group">
+            <label for="email">{{ user_form.email.label }}</label>
+            {{ user_form.email }}
+          </div>
+          <div class="form__group">
+            <label for="profile_pic">{{ user_form.avatar.label }}</label>
+            {{ user_form.avatar }}
+          </div>
+          <!-- User Form Fields End -->
 
+          <!-- UserDetails Form Fields Start -->
+          <div class="form__group">
+            <label for="bio">{{ details_form.bio.label }}</label>
+            {{ details_form.bio }}
+          </div>
+          <div class="form__group">
+            <label for="college_name">{{ details_form.college_name.label }}</label>
+            {{ details_form.college_name }}
+          </div>
+          <div class="form__group">
+            <label for="department">{{ details_form.department.label }}</label>
+            {{ details_form.department }}
+          </div>
+          <div class="form__group">
+            <label for="current_year">{{ details_form.current_year.label }}</label>
+            {{ details_form.current_year }}
+          </div>
+          <div class="form__group">
+            <label for="linkedin">{{ details_form.linkedin.label }}</label>
+            {{ details_form.linkedin }}
+          </div>
+          <div class="form__group">
+            <label for="github">{{ details_form.github.label }}</label>
+            {{ details_form.github }}
+          </div>
+          <div class="form__group">
+            <label for="twitter">{{ details_form.twitter.label }}</label>
+            {{ details_form.twitter }}
+          </div>
+          <!-- UserDetails Form Fields End -->
 
           <div class="form__action">
             <a class="btn btn--dark" href="index.html">Cancel</a>
@@ -36,7 +74,6 @@
         </form>
       </div>
     </div>
-  </div>
   </div>
 </main>
 {% endblock content %}
