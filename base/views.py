@@ -35,7 +35,7 @@ def loginPage(request):
 
         
     context={'page':page}
-    return render(request,'base/login_register.html',context)
+    return render(request,'base/login.html',context)
 
 
 def registeruser(request):
@@ -57,6 +57,47 @@ def registeruser(request):
            
  
     return render(request,'base/register.html', {'form': form})
+
+def resetpassword(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password1 = request.POST.get('password1')
+        password2 = request.POST.get('password2')
+
+        if not username or not password1:
+            messages.error(request, "All fields are required.")
+            return render(request, 'base/reset_password.html')
+        if password1 != password2:
+            messages.error(request, "Password not Matching")
+        else:
+            try:
+                user = User.objects.get(username=username)
+                user.set_password(password1)
+                user.save() 
+                messages.success(request, "Password reset successfully!")
+                return redirect('login')  
+            except User.DoesNotExist:
+                messages.error(request, "User does not exist.")
+
+
+        
+
+    return render(request, 'base/reset_password.html')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 def logoutUser(request):

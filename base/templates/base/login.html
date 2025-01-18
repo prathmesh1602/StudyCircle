@@ -21,7 +21,7 @@
     {% endfor %}
           <div class="form__group form__group">
             <label for="room_name">Username</label>
-            <input  name="username" type="email" placeholder="e.g. dennis_ivy@email.com" />
+            <input  name="username" type="text" placeholder="e.g. dennis_ivy@email.com" />
           </div>
           <div class=" form__group">
             <label for="password">Password</label>
@@ -47,6 +47,10 @@
         <div class="auth__action">
           <p>Haven't signed up yet?</p>
           <a href="{% url 'register' %}" class="btn btn--link">Sign Up</a>
+        </div>
+        <div class="auth__action">
+          <p>Forget Password ?</p>
+          <a href="{% url 'reset_password' %}" class="btn btn--link">Set New Password</a>
         </div>
       </div>
     </div>
