@@ -12,10 +12,10 @@ from .forms import UserDetailsForm
 def loginPage(request):
     page='page'
     if request.method == 'POST':
-        username = request.POST.get('username')
+        username = request.POST.get('email')
         password = request.POST.get('password')
-        
-
+        print(username)
+        print(password)
         try:
             user = User.objects.get(username=username) 
 
@@ -44,8 +44,9 @@ def registeruser(request):
         form =CustomUserCreationForm(request.POST)
         
         if form.is_valid():
+            print(form)
             user = form.save(commit=False)
-            user.username = user.username.lower()
+            user.email = user.email.lower()
             user.save()
             login(request,user)
             return redirect('home')
@@ -83,18 +84,6 @@ def resetpassword(request):
         
 
     return render(request, 'base/reset_password.html')
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
